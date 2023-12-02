@@ -20,7 +20,7 @@ def read_words_from_file(file_path) -> list:
     all_lines = []
     # 打开文件并逐行读取内容
     with open(file_path, 'r', encoding='utf-8') as file:
-        lines = [line.strip() for line in file.readlines()]
+        lines = [line.strip() for line in file.readlines() if not line.startswith('#')]
         all_lines.extend(lines)
     print(f"read {len(all_lines)} words from {file_path}")
     return all_lines
@@ -84,6 +84,8 @@ def write_list_to_file(name, content_list,split_limit = None):
         # 打开文件，'w'表示写入模式，会删除原有内容
         index_str = f'_{i}' if multils else ''
         with open(f"output/{name}{index_str}.txt", 'w', encoding='utf-8') as file:
+            print("向文件写入：")
             # 将列表的每个元素写入文件，每个元素占一行
             for item in ls:
                 file.write(str(item) + '\n')
+                print(item)
