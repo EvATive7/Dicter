@@ -15,7 +15,7 @@ def filter_blacklist_word(ls:list) -> None:
     for w in ls.copy():
         if w in bl:
             ls.remove(w)
-            print(f'移除敏感词汇“{w}”，命中规则（黑名单）')
+            print(f'移除词汇“{w}”，命中规则（黑名单）')
     pass
 
 def filter_sensitive_word(ls:list) -> None:
@@ -29,7 +29,7 @@ def filter_sensitive_word(ls:list) -> None:
             if s in w:
                 try:
                     ls.remove(w)
-                    print(f'移除敏感词汇“{w}”，命中规则“{s}”')
+                    print(f'移除词汇“{w}”，命中规则“{s}”')
                 except:
                     pass
     pass
