@@ -11,7 +11,7 @@ def filter_single_word(ls:list) -> list:
     pass
 
 def filter_blacklist_word(ls:list) -> None:
-    bl = util.read_list_from_folder('blacklist')
+    bl = util.read_list_from_folder('./data/ArknightsSCELCustomData/blacklist')
     for w in ls.copy():
         if w in bl:
             ls.remove(w)

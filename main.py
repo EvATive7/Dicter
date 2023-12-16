@@ -3,7 +3,7 @@ import word_operate
 import gamedata
 
 words = []
-exists = read_list_from_folder('exists')
+exists = read_list_from_folder('./data/ArknightsSCELCustomData/exists')
 print(f'从列表中读取了{len(exists)}个词：')
 for index,i in enumerate(exists):
     print(f'[{index}] {i}')

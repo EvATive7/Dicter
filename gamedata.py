@@ -1,7 +1,7 @@
 import util
 
 
-basic_path = './ArknightsGameData/zh_CN/gamedata'
+basic_path = './data/ArknightsGameData/zh_CN/gamedata'
 
 
 def append_all(ls: list,types:list) -> None:
