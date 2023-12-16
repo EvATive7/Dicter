@@ -33,3 +33,10 @@ def filter_sensitive_word(ls:list) -> None:
                 except:
                     pass
     pass
+
+def default_filter(ls:list)->None:
+    for w in ls.copy():
+        if w.replace(' ','') == '':
+            ls.remove(w)
+            print(f'移除词汇“{w}”，命中规则（空行）')
+    pass

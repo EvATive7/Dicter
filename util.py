@@ -33,7 +33,7 @@ def read_list_from_folder(dir) -> list:
         # 遍历文件夹中的所有文件
         for root, dirs, files in os.walk(dir):
             for file_name in files:
-                if '.txt' in file_name:
+                if '.txt' in file_name and not file_name.startswith('#'):
                     file_path = os.path.join(root, file_name)
                     all_lines.extend(read_words_from_file(file_path))
         return all_lines
@@ -88,4 +88,4 @@ def write_list_to_file(name, content_list,split_limit = None):
             # 将列表的每个元素写入文件，每个元素占一行
             for item in ls:
                 file.write(str(item) + '\n')
-                print(item)
+                print(item,end='，')

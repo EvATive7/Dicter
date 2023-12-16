@@ -9,7 +9,9 @@ for index,i in enumerate(exists):
     print(f'[{index}] {i}')
 words.extend(exists)
 
-output_type = ['desktop','m_open','t','m_self'][1] #输出版本
+word_operate.default_filter(words)
+
+output_type = ['desktop','m_open','t','m_self'][0] #输出版本
 
 if (output_type == 'desktop'):
     gamedata.append_all(words,['act','char','charm','crisis','enemy','gacha','term','item','rogue','skill','skin','stage','sub_prof'])
