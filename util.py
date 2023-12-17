@@ -83,7 +83,7 @@ def write_list_to_file(name, content_list,split_limit = None):
     for i,ls in enumerate(lists):
         # 打开文件，'w'表示写入模式，会删除原有内容
         index_str = f'_{i}' if multils else ''
-        with open(f"output/{name}{index_str}.txt", 'w', encoding='utf-8') as file:
+        with open(f"out/{name}{index_str}.txt", 'w', encoding='utf-8') as file:
             print("向文件写入：")
             # 将列表的每个元素写入文件，每个元素占一行
             for item in ls:
