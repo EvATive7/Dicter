@@ -1,26 +1,31 @@
 import util
-
+from word_operate import WordReason
 
 basic_path = './data/ArknightsGameData/zh_CN/gamedata'
 
 
-def append_all(ls: list,types:list) -> None:
-    print(f'开始从游戏数据中读取词汇：')
-
-    done_append = 0
+def append_all(ls: list, types: list) -> None:
+    appended = []
 
     def append(value):
-        nonlocal done_append
+        _ = {
+            "word": "",
+            "reason": WordReason.GAMEDATA,
+            "conclusion": f"从游戏数据导入",
+            "detail": {
+            }
+        }
         try:
             if value:
                 if value not in ls:
                     if value.replace(" ", "") != "":
-                        if util.contains_only_chinese(word):
+                        if util.contains_only_chinese(value):
                             if len(value) <= 9:
-                                done_append += 1
-                                print(f"[{done_append}] {word}")
                                 ls.append(value)
-                            
+                                __ = _.copy()
+                                __['word'] = value
+                                appended.append(__)
+
         except:
             pass
 
@@ -85,7 +90,7 @@ def append_all(ls: list,types:list) -> None:
         # 物品名称
         for item in item_table['items']:
             word = item_table['items'][item]['name']
-            if all(keyword not in word for keyword in ["信物","寻访凭证","家具"]):
+            if all(keyword not in word for keyword in ["信物", "寻访凭证", "家具"]):
                 append(word)
 
     if 'rogue' in types:
@@ -106,7 +111,7 @@ def append_all(ls: list,types:list) -> None:
                     append(word)
                 for items in rogue_detail['items']:
                     word = rogue_detail['items'][items]['name']
-                    if all(keyword not in word for keyword in ["招募券","给"]):
+                    if all(keyword not in word for keyword in ["招募券", "给"]):
                         for word in util.split_text_by_symbols(word):
                             append(word)
 
@@ -139,5 +144,7 @@ def append_all(ls: list,types:list) -> None:
         # 分支名
         for subProf in uniequip_data['subProfDict']:
             word = uniequip_data['subProfDict'][subProf]['subProfessionName']
-            if all(keyword not in word for keyword in ["干员附带单位","无职业陷阱","预留"]):
+            if all(keyword not in word for keyword in ["干员附带单位", "无职业陷阱", "预留"]):
                 append(word)
+
+    return appended
