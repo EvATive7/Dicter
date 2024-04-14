@@ -9,4 +9,5 @@
 ## 使用
 1. `git clone`  
 1. 新建配置保存到 `./data/config.yaml` （[示例](doc/config.yaml)）
+1. 满足Providers的前提
 1. `python main.py`

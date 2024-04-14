@@ -1,7 +1,7 @@
 provider:
   ArknightsGameData:
     enable: true
-    path: './data/ArknightsGameData'
+    path: './data/ArknightsGameData' # 记得clone
     types: ['act', 'char', 'charm', 'crisis', 'enemy', 'gacha', 'term', 'item', 'rogue', 'skill', 'skin', 'stage', 'sub_prof']
   CustomData:
     enable: true
