@@ -1,0 +1,12 @@
+provider:
+  ArknightsGameData:
+    enable: true
+    path: './data/ArknightsGameData'
+    types: ['act', 'char', 'charm', 'crisis', 'enemy', 'gacha', 'term', 'item', 'rogue', 'skill', 'skin', 'stage', 'sub_prof']
+  CustomData:
+    enable: true
+    path: './data/CustomData'
+output_type: sogou_desktop # ['sogou_desktop', 'sogou_m']
+blacklist: # 正则规则
+  - 'builtin' # builtin使用代码中内置的
+  # - '' # 指向文件来增加

@@ -6,36 +6,11 @@
     "configurations": [
         {
             "name": "desktop",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/main.py",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": [
-                "desktop"
-            ]
-        },
-        {
-            "name": "mobile_open",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/main.py",
-            "console": "integratedTerminal",
-            "justMyCode": true,
-            "args": [
-                "mobile_open"
-            ]
-        },
-        {
-            "name": "test",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/main.py",
-            "console": "integratedTerminal",
-            "justMyCode": true,
-            "args": [
-                "test"
-            ]
         }
     ]
 }

@@ -1,11 +1,14 @@
 import os
+import yaml
 import json
 import re
 from datetime import datetime
 from pypinyin import lazy_pinyin
 
+
 def pinyin_sort(lis):
     lis.sort(key=lambda i: lazy_pinyin(i)[0][0])
+
 
 def get_formatted_datetime():
     # 获取当前日期和时间
@@ -16,14 +19,15 @@ def get_formatted_datetime():
 
     return formatted_datetime
 
-def read_words_from_file(file_path) -> list:
+
+def read_list_from_file(file_path) -> list:
     all_lines = []
-    # 打开文件并逐行读取内容
     with open(file_path, 'r', encoding='utf-8') as file:
         lines = [line.strip() for line in file.readlines() if not line.startswith('#')]
         all_lines.extend(lines)
-    #print(f"read {len(all_lines)} words from {file_path}")
+    # print(f"read {len(all_lines)} words from {file_path}")
     return all_lines
+
 
 def read_list_from_folder(dir) -> list:
     try:
@@ -35,16 +39,37 @@ def read_list_from_folder(dir) -> list:
             for file_name in files:
                 if '.txt' in file_name and not file_name.startswith('#'):
                     file_path = os.path.join(root, file_name)
-                    all_lines.extend(read_words_from_file(file_path))
+                    all_lines.extend(read_list_from_file(file_path))
         return all_lines
     except:
         return []
-    
-def read_json_file(file_path):
-    # 打开 JSON 文件并加载数据
-    with open(file_path, 'r', encoding='utf-8') as file:
-        data = json.load(file)
-    return data
+
+
+def read_file(path):
+    with open(str(path), 'r', encoding='utf8') as file:
+        return file.read()
+
+
+def read_json(path):
+    return json.loads(read_file(path))
+
+
+def read_yaml(path):
+    return yaml.safe_load(read_file(path))
+
+
+def write_file(path, content):
+    with open(str(path), 'w', encoding='utf8') as file:
+        file.write(content)
+
+
+def write_json(path, content):
+    write_file(path, json.dumps(content, ensure_ascii=False))
+
+
+def write_yaml(path, content):
+    write_file(path, yaml.safe_dump(content))
+
 
 def split_text_by_symbols(text):
     try:
@@ -54,10 +79,12 @@ def split_text_by_symbols(text):
     except:
         return []
 
+
 def contains_only_chinese(text):
     # 使用正则表达式匹配只包含中文字符的情况
     chinese_pattern = re.compile(r'^[\u4e00-\u9fa5]+$')
     return bool(re.match(chinese_pattern, text))
+
 
 def split_list(input_list, chunk_size):
     """
@@ -69,23 +96,19 @@ def split_list(input_list, chunk_size):
     return [input_list[i:i + chunk_size] for i in range(0, len(input_list), chunk_size)]
 
 
-def write_list_to_file(name, content_list,split_limit = None):
+def write_list_to_file(name, content_list, split_limit=None):
     if not split_limit:
         lists = [content_list]
     else:
-        lists = split_list(content_list,split_limit)
-    
+        lists = split_list(content_list, split_limit)
+
     if len(lists) == 1:
         multils = False
     else:
         multils = True
 
-    for i,ls in enumerate(lists):
-        # 打开文件，'w'表示写入模式，会删除原有内容
+    for i, ls in enumerate(lists):
         index_str = f'_{i}' if multils else ''
         with open(f"out/{name}{index_str}.txt", 'w', encoding='utf-8') as file:
-            #print("向文件写入：")
-            # 将列表的每个元素写入文件，每个元素占一行
             for item in ls:
                 file.write(str(item) + '\n')
-                #print(item,end='，')

@@ -1,42 +1,36 @@
-from util import write_list_to_file, get_formatted_datetime, pinyin_sort
-import word_operate
-import gamedata
-import argparse
+from util import *
+from provider import *
 
-output_types = ['desktop', 'mobile_open', 'test']
+from word_operate import WordList, builtin_blacklist
 
-parser = argparse.ArgumentParser()
-parser.add_argument('output_type', choices=output_types)
-args = parser.parse_args()
+config = read_yaml('data/config.yaml')
+output_type = config['output_type']
 
-output_type = args.output_type
+words = WordList()
 
-words = []
-load_logs = []
-removed_logs = []
+for provider, provider_config in config['provider'].items():
+    for word in globals()[provider](provider_config).get():
+        words.appends(word, f'{provider}')
 
-load_logs += word_operate.load_exists(words)
-removed_logs += word_operate.filter_blank_row(words)
+blacklist = []
+for _blacklist in config['blacklist']:
+    if _blacklist == 'builtin':
+        blacklist.extend(builtin_blacklist)
+    else:
+        blacklist.extend(read_list_from_file(_blacklist))
 
-if (output_type == 'desktop'):
-    load_logs += gamedata.append_all(words, ['act', 'char', 'charm', 'crisis', 'enemy', 'gacha', 'term', 'item', 'rogue', 'skill', 'skin', 'stage', 'sub_prof'])
-    removed_logs += word_operate.filter_overdose_word(words)
+words.remove_general()
+words.remove_blank()
+words.remove_notchinese()
+words.remove_overdose_word()
+
+if (output_type == 'sogou_desktop'):
     pinyin_sort(words)
     write_list_to_file(f'{get_formatted_datetime()}', words)
 
 if (output_type == 'mobile_open'):
-    gamedata.append_all(words, ['act', 'char', 'gacha', 'term', 'skill', 'skin', 'sub_prof'])
+    words.remove_signal_word()
+    words.remove_blacklist_word(blacklist)
+
     pinyin_sort(words)
-    removed_logs += word_operate.filter_single_word(words)
-    removed_logs += word_operate.filter_blacklist_word(words)
-    removed_logs += word_operate.filter_sensitive_word(words)
-    removed_logs += word_operate.filter_overdose_word(words)
     write_list_to_file(f'{get_formatted_datetime()}', words, 1999)
-
-if (output_type == 'test'):
-    pass
-
-for removed_log in removed_logs:
-    print(f"{removed_log['word']}被移除，命中规则：{removed_log['conclusion']}")
-
-exit()
